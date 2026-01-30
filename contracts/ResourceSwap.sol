@@ -35,7 +35,6 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
     mapping(address => uint256) public ownedCount;
     mapping(address => uint256) public lastActionAt;
     mapping(address => uint256) public lockedUntil;
-
     mapping(uint256 => Offer) public offers;
 
     constructor() ERC721("ResourceSwap", "RSWAP") {}
@@ -57,7 +56,7 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
         uint256 _value,
         string memory _ipfsUri
     ) external notLocked(msg.sender) cooldownOk(msg.sender) returns (uint256) {
-        require(ownedCount[msg.sender] < MAX_OWNED, "Max owned reached");
+        require(balanceOf(msg.sender) < MAX_OWNED, "Max owned reached");
 
         uint256 tokenId = _nextTokenId++;
         _safeMint(msg.sender, tokenId);
@@ -72,7 +71,6 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
         m.createdAt = block.timestamp;
         m.lastTransferAt = block.timestamp;
 
-        ownedCount[msg.sender] += 1;
         lastActionAt[msg.sender] = block.timestamp;
         lockedUntil[msg.sender] = block.timestamp + LOCK_DURATION;
 
@@ -86,6 +84,11 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
         returns (uint256)
     {
         require(ownerOf(offeredTokenId) == msg.sender, "Not owner of offered token");
+
+        require(
+            getApproved(offeredTokenId) == address(this) || isApprovedForAll(msg.sender, address(this)),
+            "Approve contract first"
+        );
 
         uint256 offerId = nextOfferId++;
         offers[offerId] = Offer({
@@ -123,10 +126,15 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
         require(ownerOf(offeredId) == offerer, "Offerer no longer owner");
         require(ownerOf(requestedId) == msg.sender, "You are not owner of requested token");
 
+        require(
+            getApproved(requestedId) == address(this) || isApprovedForAll(msg.sender, address(this)),
+            "Approve contract first (acceptor)"
+        );
+
         o.active = false;
 
-        _safeTransfer(offerer, msg.sender, offeredId, "");
-        _safeTransfer(msg.sender, offerer, requestedId, "");
+        this.safeTransferFrom(offerer, msg.sender, offeredId);
+        this.safeTransferFrom(msg.sender, offerer, requestedId);
 
         lastActionAt[msg.sender] = block.timestamp;
         lockedUntil[msg.sender] = block.timestamp + LOCK_DURATION;
@@ -142,6 +150,15 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
     {
         from = super._update(to, tokenId, auth);
 
+        if (from == address(0) && to != address(0)) {
+            ownedCount[to] += 1;
+        } else if (from != address(0) && to == address(0)) {
+            if (ownedCount[from] > 0) ownedCount[from] -= 1;
+        } else if (from != address(0) && to != address(0)) {
+            if (ownedCount[from] > 0) ownedCount[from] -= 1;
+            ownedCount[to] += 1;
+        }
+
         if (from != address(0) && to != address(0)) {
             resources[tokenId].previousOwners.push(from);
             resources[tokenId].lastTransferAt = block.timestamp;
@@ -151,7 +168,7 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
     }
 
     function tokensOfOwner(address user) external view returns (uint256[] memory) {
-        uint256 balance = ownedCount[user];
+        uint256 balance = balanceOf(user);
         uint256[] memory result = new uint256[](balance);
 
         uint256 idx = 0;
@@ -160,6 +177,7 @@ contract ResourceSwap is ERC721URIStorage, ReentrancyGuard {
             try this.ownerOf(id) returns (address o) {
                 if (o == user) {
                     result[idx++] = id;
+                    if (idx == balance) break;
                 }
             } catch {}
         }
