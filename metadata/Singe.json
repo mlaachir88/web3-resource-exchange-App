@@ -1,0 +1,12 @@
+{
+  "name": "Singe",
+  "description": "ResourceSwap Animals - Singe",
+  "type": "animal",
+  "tier": 1,
+  "value": 1000,
+  "image": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Singe.png",
+  "hash": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Singe.png",
+  "previousOwners": [],
+  "createdAt": 0,
+  "lastTransferAt": 0
+}

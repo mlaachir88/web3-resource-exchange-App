@@ -1,0 +1,12 @@
+{
+  "name": "Perroquet",
+  "description": "ResourceSwap Animals - Perroquet",
+  "type": "animal",
+  "tier": 2,
+  "value": 700,
+  "image": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Perroquet.png",
+  "hash": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Perroquet.png",
+  "previousOwners": [],
+  "createdAt": 0,
+  "lastTransferAt": 0
+}

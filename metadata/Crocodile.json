@@ -1,0 +1,12 @@
+{
+  "name": "Crocodile",
+  "description": "ResourceSwap Animals - Crocodile",
+  "type": "animal",
+  "tier": 2,
+  "value": 650,
+  "image": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/crocodile.png",
+  "hash": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/crocodile.png",
+  "previousOwners": [],
+  "createdAt": 0,
+  "lastTransferAt": 0
+}

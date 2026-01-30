@@ -1,0 +1,12 @@
+{
+  "name": "Lapin",
+  "description": "ResourceSwap Animals - Lapin",
+  "type": "animal",
+  "tier": 1,
+  "value": 900,
+  "image": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Lapin.png",
+  "hash": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Lapin.png",
+  "previousOwners": [],
+  "createdAt": 0,
+  "lastTransferAt": 0
+}

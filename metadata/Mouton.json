@@ -1,0 +1,12 @@
+{
+  "name": "Mouton",
+  "description": "ResourceSwap Animals - Mouton",
+  "type": "animal",
+  "tier": 4,
+  "value": 250,
+  "image": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Mouton.png",
+  "hash": "ipfs://bafybeig4n3u64ndpibgrzg4jkyyhmieclyf4drzltw5git4nixlymkrry4/Mouton.png",
+  "previousOwners": [],
+  "createdAt": 0,
+  "lastTransferAt": 0
+}
